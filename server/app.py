@@ -19,16 +19,16 @@ def home():
 
 @app.route('/animal/<int:id>')
 def animal_by_id(id):
-    return ''
+    animal = Animal.query.filter(Animal.id == id).first()
+    if not animal:
+        response_body = '<ul>404 animal not found</ul>'
+        response = make_response(response_body, 404)
+        return response
+    
+    response_body = f'''
+    <ul>{animal.name}, {animal.species}</ul>
+    '''
+    response = make_response(response_body, 200)
+    return response
+    
 
-@app.route('/zookeeper/<int:id>')
-def zookeeper_by_id(id):
-    return ''
-
-@app.route('/enclosure/<int:id>')
-def enclosure_by_id(id):
-    return ''
-
-
-if __name__ == '__main__':
-    app.run(port=5555, debug=True)
